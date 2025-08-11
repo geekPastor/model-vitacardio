@@ -14,49 +14,43 @@ from sklearn.metrics import ConfusionMatrixDisplay, roc_curve, auc, precision_re
 from sklearn.ensemble import RandomForestClassifier
 
 
-# Model Regression lineaire
+if __name__ == "__main__":
+    # Chargement des données
+    df = pd.read_csv("./dataset.csv")
 
-# Chargement des données
-df = pd.read_csv("./dataset.csv")
+    # Séparation features / cible
+    X = df.drop("heartAttack", axis=1)
+    y = df["heartAttack"]
 
-# Séparation features / cible
-X = df.drop("heartAttack", axis=1)
-y = df["heartAttack"]
+    # Split train/test
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Split train/test
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    # Pipeline standardisation + modèle
+    pipeline_logreg = Pipeline([
+        ("scaler", StandardScaler()),
+        ("classifier", LogisticRegression())
+    ])
 
-# Pipeline standardisation + modèle
-pipeline_logreg = Pipeline([
-    ("scaler", StandardScaler()),
-    ("classifier", LogisticRegression())
-])
+    # Entraînement
+    pipeline_logreg.fit(X_train, y_train)
 
-# Entraînement
-pipeline_logreg.fit(X_train, y_train)
+    # Prédictions sur test
+    y_pred_logreg = pipeline_logreg.predict(X_test)
 
-# Prédictions sur test
-y_pred_logreg = pipeline_logreg.predict(X_test)
+    # Rapport classification
+    print("=== Logistic Regression ===")
+    print(classification_report(y_test, y_pred_logreg))
 
-# Rapport classification
-print("=== Logistic Regression ===")
-print(classification_report(y_test, y_pred_logreg))
+    # Entraînement du modèle Random Forest
+    rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf_model.fit(X_train, y_train)
 
+    # Prédictions
+    y_pred_rf = rf_model.predict(X_test)
 
-
-
-# Entraînement du modèle Random Forest
-
-
-rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
-rf_model.fit(X_train, y_train)
-
-# Prédictions
-y_pred_rf = rf_model.predict(X_test)
-
-# Rapport classification
-print("=== Random Forest ===")
-print(classification_report(y_test, y_pred_rf))
+    # Rapport classification
+    print("=== Random Forest ===")
+    print(classification_report(y_test, y_pred_rf))
 
 
 
