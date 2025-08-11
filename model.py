@@ -13,6 +13,21 @@ from sklearn.metrics import ConfusionMatrixDisplay, roc_curve, auc, precision_re
 # Entraînement du modèle Random Forest
 from sklearn.ensemble import RandomForestClassifier
 
+# Chargement des données et entraînement des modèles pour import
+_df = pd.read_csv("./dataset.csv")
+_X = _df.drop("heartAttack", axis=1)
+_y = _df["heartAttack"]
+_X_train, _X_test, _y_train, _y_test = train_test_split(_X, _y, test_size=0.2, random_state=42)
+pipeline_logreg = Pipeline([
+    ("scaler", StandardScaler()),
+    ("classifier", LogisticRegression())
+])
+pipeline_logreg.fit(_X_train, _y_train)
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+rf_model.fit(_X_train, _y_train)
+
+del _df, _X, _y, _X_train, _X_test, _y_train, _y_test
+
 
 if __name__ == "__main__":
     # Chargement des données
