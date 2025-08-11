@@ -20,9 +20,16 @@ class PatientData(BaseModel):
 
 @app.post("/analyser_patient/")
 def analyser(patient_data: PatientData):
-    df = pd.DataFrame([m.dict() for m in patient_data.mesures])
-    result = analyser_patient_avec_scores(df, pipeline_logreg, rf_model)
-    return result
+    try:
+        df = pd.DataFrame([m.dict() for m in patient_data.mesures])
+        print("[DEBUG] DataFrame reçu :\n", df)
+        result = analyser_patient_avec_scores(df, pipeline_logreg, rf_model)
+        return result
+    except Exception as e:
+        print("[ERROR] Exception dans /analyser_patient/ :", str(e))
+        import traceback
+        traceback.print_exc()
+        return {"error": str(e)}
 
 @app.get("/test/")
 def health_check():
