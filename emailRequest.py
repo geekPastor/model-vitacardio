@@ -5,7 +5,7 @@ from sendgrid.helpers.mail import Mail
 def send_email(to_email: str, subject: str, content: str):
     try:
         message = Mail(
-            from_email="ton_email_verifie@tondomaine.com",
+            from_email="chrinovic.mm@gmail.com",
             to_emails=to_email,
             subject=subject,
             html_content=content
