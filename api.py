@@ -4,6 +4,9 @@ from typing import List
 import pandas as pd
 import os
 
+from email import send_email
+from pydantic import BaseModel
+
 # Import des modèles et fonction depuis models.py
 from model import pipeline_logreg, rf_model, analyser_patient_avec_scores
 
@@ -35,3 +38,17 @@ def analyser(patient_data: PatientData):
 @app.get("/test/")
 def health_check():
     return {"status": "healthy"}
+
+
+class EmailRequest(BaseModel):
+    to: str
+    subject: str
+    message: str
+
+@app.post("/send_email/")
+def send_email_route(email: EmailRequest):
+    return send_email(
+        to_email=email.to,
+        subject=email.subject,
+        content=email.message
+    )
