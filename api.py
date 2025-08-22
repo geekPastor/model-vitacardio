@@ -4,7 +4,7 @@ from typing import List
 import pandas as pd
 import os
 
-from email import send_email
+from emailRequest import send_email
 from pydantic import BaseModel
 
 # Import des modèles et fonction depuis models.py
