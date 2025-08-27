@@ -77,13 +77,13 @@ def analyser_patient_avec_scores(patient_data: pd.DataFrame, logreg_model, rf_mo
     anomalies_detectees = []
     for i, row in patient_data.iterrows():
         anomalies = []
-        if row["pression_arterielle"] > 140:
+        if row["bloodPressure"] > 140:
             anomalies.append("pression arterielle > 140 (hypertension)")
-        if row["frequence_cardiaque"] > 100:
+        if row["heartRate"] > 100:
             anomalies.append("frequence cardiaque > 100 (tachycardie)")
-        if row["saturation_o2"] < 94:
+        if row["o2Saturation"] < 94:
             anomalies.append("saturation en Oxygène < 94% (hypoxie)")
-        if row["temperature"] > 37.5:
+        if row["bodyTemperature"] > 37.5:
             anomalies.append("temperature corporelle > 37.5°C (fièvre)")
         if anomalies:
             anomalies_detectees.append({
