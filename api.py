@@ -14,10 +14,10 @@ app = FastAPI()
 
 class Mesure(BaseModel):
     timestamp: str
-    bloodPressure: float
-    heartRate: float
-    o2Saturation: float
-    bodyTemperature: float
+    pression_arterielle: float
+    frequence_cardiaque: float
+    saturation_o2: float
+    temperature: float
 
 class PatientData(BaseModel):
     mesures: List[Mesure]
